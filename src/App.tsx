@@ -337,8 +337,8 @@ function App() {
                       {course.isOpen ? (
                         <div className="absolute top-4 left-4 bg-green-500 text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-bold flex items-center gap-1">
                           <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4" />
-                          <span className="hidden sm:inline">مفتوح للتسجيل</span>
-                          <span className="sm:hidden">مفتوح</span>
+                          <span className="hidden sm:inline">متاح للتسجيل</span>
+                          <span className="sm:hidden">متاح</span>
                         </div>
                       ) : (
                         <div className="absolute top-4 left-4 bg-red-500 text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-bold flex items-center gap-1">
@@ -585,7 +585,7 @@ function App() {
                     {selectedCourse.isOpen ? (
                       <span className="inline-flex items-center gap-2 bg-green-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-full font-bold text-sm md:text-base">
                         <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" />
-                        مفتوح للتسجيل
+                        متاح للتسجيل
                       </span>
                     ) : (
                       <span className="inline-flex items-center gap-2 bg-red-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-full font-bold text-sm md:text-base">
