@@ -75,7 +75,7 @@ function App() {
         'اختبار لتقييم الفهم والتطبيق'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: '' // أضف اسم المدرب هنا
+      instructor: 'م.فادي الأزرق' // أضف اسم المدرب هنا
     },
     {
       icon: Calculator,
