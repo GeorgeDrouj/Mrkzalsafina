@@ -12,6 +12,7 @@ interface Course {
   topics: string[];
   prerequisites: string;
   instructor: string;
+  category: string;
 }
 
 function App() {
@@ -19,7 +20,18 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('الكل');
   const coursesPerPage = 6;
+
+  const categories = [
+    'الكل',
+    'معلوماتية',
+    'ميكاترونيكس',
+    'عمارة',
+    'تصميم داخلي',
+    'تصميم غرافيكي',
+    'محاسبة وادارة اعمال'
+  ];
 
   const courses: Course[] = [
     {
@@ -32,7 +44,8 @@ function App() {
       level: 'مبتدئ إلى متوسط',
       topics: ['الذكاء الصنعي وتطبيقاته', 'لغة بايثون', 'Pandas', 'Numpy', 'Matplotlib', 'التعلم الآلي', 'التصنيف والانحدار وتقييم النماذج', 'مشروع عملي على بيانات حقيقية'],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.ميار الملا'
+      instructor: 'م.ميار الملا',
+      category: 'معلوماتية'
     },
     {
       icon: Shield,
@@ -54,7 +67,8 @@ function App() {
         'تطبيق عملي لدمج الأدوات في سيناريوهات واقعية'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.رياض حامد' // أضف اسم المدرب هنا
+      instructor: 'م.رياض حامد', // أضف اسم المدرب هنا
+      category: 'معلوماتية'
     },
     {
       icon: Cpu,
@@ -75,7 +89,8 @@ function App() {
         'اختبار لتقييم الفهم والتطبيق'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.فادي الأزرق' // أضف اسم المدرب هنا
+      instructor: 'م.فادي الأزرق', // أضف اسم المدرب هنا
+      category: 'ميكاترونيكس'
     },
     {
       icon: Calculator,
@@ -94,7 +109,8 @@ function App() {
         'الحصول على دعم فني وتقني مستمر'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'أ.أسعد بركودة'
+      instructor: 'أ.أسعد بركودة',
+      category: 'محاسبة وادارة اعمال'
     },
     {
       icon: Box,
@@ -113,7 +129,8 @@ function App() {
         'الرندر النهائي وإخراج الصور الواقعية'
       ],
       prerequisites: 'يفضّل معرفة أساسيات التصميم الداخلي أو المعماري',
-      instructor: 'م.داني الزايد'
+      instructor: 'م.داني الزايد',
+      category: 'تصميم داخلي'
     },
     {
       icon: Palette,
@@ -133,13 +150,14 @@ function App() {
         'فهم الطبقات وتنظيم العمل'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'أ.سعاد الأزرق' // أضف اسم المدرب هنا
+      instructor: 'أ.سعاد الأزرق', // أضف اسم المدرب هنا
+      category: 'تصميم غرافيكي'
     },
 
     {
       icon: Building2,
       title: 'دورة Revit الاحترافية',
-      description: 'تعلّم استخدام برنامج Revit باحتراف لبناء النماذج المعمارية، إعداد الجداول، والإخراج البصري والطباعي المتكامل للمشاريع',
+      description: 'تعلّم استخدام برنامج Revit باحتراف لبناء النماذج المعمارية، إعداد الجداول، والإخراج البصري والطباعي المتكامل للمشارية',
       price: '500,000',
       hours: 30,
       isOpen: true,
@@ -155,7 +173,8 @@ function App() {
         'الكتل العضوية (Mass Modeling)'
       ],
       prerequisites: 'يفضّل معرفة أساسيات التصميم المعماري أو الهندسي',
-      instructor: 'م.مايكل سليك' // أضف اسم المدرب هنا
+      instructor: 'م.مايكل سليك', // أضف اسم المدرب هنا
+      category: 'عمارة'
     },
 
     {
@@ -177,7 +196,8 @@ function App() {
         'الحصول على مكتبة بلوكات جاهزة للاستخدام'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.ماريا البطل' // أضف اسم المدرب هنا
+      instructor: 'م.ماريا البطل', // أضف اسم المدرب هنا
+      category: 'عمارة'
     },
     {
       icon: Code,
@@ -200,7 +220,8 @@ function App() {
         'تحديات من الواقع العملي'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.محمد عبده' // أضف اسم المدرب هنا
+      instructor: 'م.محمد عبده', // أضف اسم المدرب هنا
+      category: 'معلوماتية'
     },
 
 
@@ -215,10 +236,22 @@ function App() {
     { number: '10+', label: 'سنوات خبرة' }
   ];
 
-  const filteredCourses = courses.filter(course =>
-    course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    course.description.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Replace naive filter with relevance scoring and sorting
+  const scoredCourses = courses.map(c => ({
+    course: c,
+    score: searchQuery.trim() ? (
+      (c.title.toLowerCase().includes(searchQuery.toLowerCase()) ? 4 : 0) +
+      (c.description.toLowerCase().includes(searchQuery.toLowerCase()) ? 2 : 0) +
+      (c.topics.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())) ? 1 : 0)
+    ) : 0
+  }));
+
+  const filteredCourses = (searchQuery.trim()
+    ? scoredCourses
+      .filter(s => s.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map(s => s.course)
+    : courses).filter(course => selectedCategory === 'الكل' || course.category === selectedCategory);
 
   const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
   const indexOfLastCourse = currentPage * coursesPerPage;
@@ -316,8 +349,27 @@ function App() {
             <p className="text-base md:text-xl text-gray-600 max-w-2xl mx-auto mb-6 md:mb-8 px-4">
               نوفر مجموعة متنوعة من الدورات التدريبية المتخصصة بإشراف مدربين محترفين
             </p>
-            <div className="max-w-xl mx-auto px-4">
-              <div className="relative">
+            <div className="max-w-4xl mx-auto px-4">
+              {/* Category Filter */}
+              <div className="flex flex-wrap justify-center gap-3 mb-8">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => {
+                      setSelectedCategory(category);
+                      setCurrentPage(1);
+                    }}
+                    className={`px-4 py-2 rounded-full text-sm md:text-base font-bold transition-all transform hover:scale-105 ${selectedCategory === category
+                        ? 'bg-[#F8E71C] text-[#2B3A8F] shadow-lg'
+                        : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                      }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+
+              <div className="relative max-w-xl mx-auto">
                 <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
                   type="text"
