@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { BookOpen, Calculator, Building2, Code, GraduationCap, Users, Award, MapPin, Clock, DollarSign, X, CheckCircle2, XCircle, Search, MessageCircle, Facebook, Instagram, ChevronLeft, ChevronRight, Menu, Goal, Brain, Shield, Cpu, Box, PenTool } from 'lucide-react';
+import { BookOpen, Calculator, Building2, Code, GraduationCap, Users, Award, MapPin, Clock, DollarSign, X, CheckCircle2, XCircle, Search, MessageCircle, Facebook, Instagram, ChevronLeft, ChevronRight, Menu, Goal, Brain, Shield, Cpu, Box, PenTool, Palette } from 'lucide-react';
 
 interface Course {
   icon: any;
@@ -28,7 +28,7 @@ function App() {
       description: 'تعلّم أساسيات الذكاء الصنعي والبرمجة بلغة بايثون وتحليل البيانات وبناء النماذج الذكية',
       price: '400,000',
       hours: 24,
-      isOpen: true,
+      isOpen: false,
       level: 'مبتدئ إلى متوسط',
       topics: ['الذكاء الصنعي وتطبيقاته', 'لغة بايثون', 'Pandas', 'Numpy', 'Matplotlib', 'التعلم الآلي', 'التصنيف والانحدار وتقييم النماذج', 'مشروع عملي على بيانات حقيقية'],
       prerequisites: 'لا توجد متطلبات مسبقة',
@@ -115,6 +115,27 @@ function App() {
       prerequisites: 'يفضّل معرفة أساسيات التصميم الداخلي أو المعماري',
       instructor: 'م.داني الزايد'
     },
+    {
+      icon: Palette,
+      title: 'دورة الفوتوشوب للمبتدئين',
+      description: 'ابدأ رحلتك في عالم التصميم باستخدام Photoshop من خلال تعلم الأدوات الأساسية وتعديل الصور وبناء تصاميم احترافية من الصفر',
+      price: '200,000',
+      hours: 16,
+      isOpen: true,
+      level: 'مبتدئ',
+      topics: [
+        'واجهة البرنامج وأهم الأدوات',
+        'أساسيات تعديل الصور وتحسينها',
+        'الكتابة والتعامل مع النصوص',
+        'الرسم والتلوين بالأدوات الأساسية',
+        'مشروع تطبيقي نهائي لبناء تصميم متكامل',
+        'تصميم بوسترات ومحتوى للسوشيال ميديا',
+        'فهم الطبقات وتنظيم العمل'
+      ],
+      prerequisites: 'لا توجد متطلبات مسبقة',
+      instructor: 'أ.سعاد الأزرق' // أضف اسم المدرب هنا
+    },
+
     {
       icon: Building2,
       title: 'دورة Revit الاحترافية',
