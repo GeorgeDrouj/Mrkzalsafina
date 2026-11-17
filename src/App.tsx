@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { BookOpen, Calculator, Building2, Code, GraduationCap, Users, Award, MapPin, Clock, DollarSign, X, CheckCircle2, XCircle, Search, MessageCircle, Facebook, Instagram, ChevronLeft, ChevronRight, Menu, Goal, Brain, Shield, Cpu, Box, PenTool, Palette } from 'lucide-react';
+import { BookOpen, Calculator, Building2, Code, GraduationCap, Users, Award, MapPin, Clock, DollarSign, X, CheckCircle2, XCircle, Search, MessageCircle, Facebook, Instagram, ChevronLeft, ChevronRight, Menu, Goal, Brain, Shield, Cpu, Box, PenTool, Palette, Monitor, Smartphone, Settings, type LucideIcon } from 'lucide-react';
 
 interface Course {
-  icon: any;
+  icon: LucideIcon;
   title: string;
   description: string;
   price: string;
@@ -38,7 +38,7 @@ function App() {
       icon: Brain,
       title: 'مدخل إلى الذكاء الصنعي ولغة بايثون',
       description: 'تعلّم أساسيات الذكاء الصنعي والبرمجة بلغة بايثون وتحليل البيانات وبناء النماذج الذكية',
-      price: '400,000',
+      price: '4000',
       hours: 24,
       isOpen: false,
       level: 'مبتدئ إلى متوسط',
@@ -51,9 +51,9 @@ function App() {
       icon: Shield,
       title: ' الأمن السيبراني والهكر الأخلاقي  المستوى الأول',
       description: 'دورة تعرّفك على أساسيات الأمن السيبراني، التهديدات الرقمية، أدوات التحليل العملي، وإعداد بيئة اختبار آمنة باستخدام Kali ',
-      price: '300,000',
+      price: '3000',
       hours: 15,
-      isOpen: true,
+      isOpen: false,
       level: 'مبتدئ',
       topics: [
         'أساسيات الأمن السيبراني وأهميته',
@@ -67,14 +67,14 @@ function App() {
         'تطبيق عملي لدمج الأدوات في سيناريوهات واقعية'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.رياض حامد', // أضف اسم المدرب هنا
+      instructor: 'م.رياض حامد',
       category: 'معلوماتية'
     },
     {
       icon: Cpu,
       title: 'دورة Arduino',
       description: 'تعلّم برمجة المتحكم الصغري Arduino وتصميم مشاريع إلكترونية ذكية من الصفر',
-      price: '225,000',
+      price: '2500',
       hours: 20,
       isOpen: true,
       level: 'مبتدئ إلى متوسط',
@@ -89,16 +89,16 @@ function App() {
         'اختبار لتقييم الفهم والتطبيق'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.فادي الأزرق', // أضف اسم المدرب هنا
+      instructor: 'م.فادي الأزرق',
       category: 'ميكاترونيكس'
     },
     {
       icon: Calculator,
       title: 'دورة المحاسبة العملية على برنامج الرشيد',
       description: 'تعلّم مبادئ المحاسبة وتنفيذ العمليات التجارية على برنامج الرشيد باحتراف مع تطبيقات عملية ودعم فني مستمر',
-      price: '325,000',
+      price: '3500',
       hours: 24,
-      isOpen: true,
+      isOpen: false,
       level: 'مبتدئ إلى متوسط',
       topics: [
         'مبادئ وأسس المحاسبة النظرية',
@@ -116,10 +116,10 @@ function App() {
       icon: Box,
       title: 'دورة 3ds Max مع V-Ray',
       description: 'تعلّم النمذجة ثلاثية الأبعاد والتصميم الداخلي والخارجي باستخدام 3ds Max وV-Ray لإنتاج صور واقعية عالية الجودة',
-      price: '575,000',
-      hours: 36,
+      price: '10000',
+      hours: 50,
       isOpen: true,
-      level: 'متوسط إلى متقدم',
+      level: 'مبتدئ إلى متقدم',
       topics: [
         'واجهة 3ds Max وأساسيات النمذجة',
         'تصميم الفراغات الداخلية والخارجية',
@@ -129,14 +129,14 @@ function App() {
         'الرندر النهائي وإخراج الصور الواقعية'
       ],
       prerequisites: 'يفضّل معرفة أساسيات التصميم الداخلي أو المعماري',
-      instructor: 'م.داني الزايد',
+      instructor: 'م.منيا عبده',
       category: 'تصميم داخلي'
     },
     {
       icon: Palette,
       title: 'دورة الفوتوشوب للمبتدئين',
       description: 'ابدأ رحلتك في عالم التصميم باستخدام Photoshop من خلال تعلم الأدوات الأساسية وتعديل الصور وبناء تصاميم احترافية من الصفر',
-      price: '200,000',
+      price: '2000',
       hours: 16,
       isOpen: true,
       level: 'مبتدئ',
@@ -150,17 +150,16 @@ function App() {
         'فهم الطبقات وتنظيم العمل'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'أ.سعاد الأزرق', // أضف اسم المدرب هنا
+      instructor: 'أ.سعاد الأزرق',
       category: 'تصميم غرافيكي'
     },
-
     {
       icon: Building2,
       title: 'دورة Revit الاحترافية',
       description: 'تعلّم استخدام برنامج Revit باحتراف لبناء النماذج المعمارية، إعداد الجداول، والإخراج البصري والطباعي المتكامل للمشارية',
-      price: '500,000',
+      price: '5000',
       hours: 30,
-      isOpen: true,
+      isOpen: false,
       level: 'متوسط إلى متقدم',
       topics: [
         'التعرف على البرنامج والواجهة وضبط الإعدادات',
@@ -173,15 +172,14 @@ function App() {
         'الكتل العضوية (Mass Modeling)'
       ],
       prerequisites: 'يفضّل معرفة أساسيات التصميم المعماري أو الهندسي',
-      instructor: 'م.مايكل سليك', // أضف اسم المدرب هنا
+      instructor: 'م.مايكل سليك',
       category: 'عمارة'
     },
-
     {
       icon: PenTool,
       title: 'دورة AutoCAD',
       description: 'ابدأ رحلتك نحو إتقان برنامج أوتوكاد من خلال التعرف على واجهته وأوامره الأساسية وتنفيذ مشروع معماري كامل عمليًا',
-      price: '325,000',
+      price: '3500',
       hours: 20,
       isOpen: true,
       level: 'مبتدئ إلى متوسط',
@@ -196,15 +194,15 @@ function App() {
         'الحصول على مكتبة بلوكات جاهزة للاستخدام'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.ماريا البطل', // أضف اسم المدرب هنا
+      instructor: 'م.ماريا البطل',
       category: 'عمارة'
     },
     {
       icon: Code,
-      title: 'دورة المنطق البرمجي ومهارات البرمجة',
+      title: 'مدخل واساسيات التفكير البرمجي',
       description: 'ابدأ رحلتك في عالم البرمجة من خلال تعلم التفكير المنطقي وتحليل المشكلات وتصميم الحلول بخوارزميات ومخططات منهجية دون التقيد بلغة محددة',
-      price: '175,000',
-      hours: 10,
+      price: '4000',
+      hours: 15,
       isOpen: true,
       level: 'مبتدئ',
       topics: [
@@ -220,21 +218,99 @@ function App() {
         'تحديات من الواقع العملي'
       ],
       prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.محمد عبده', // أضف اسم المدرب هنا
+      instructor: 'م.محمد عبده',
       category: 'معلوماتية'
     },
-
-
-
-
+    {
+      icon: Smartphone,
+      title: 'دورة تصميم محتوى المشاريع باستخدام الهاتف (مشروعي بتصميمي)',
+      description: 'تعلّمي تصميم محتوى جذاب واحترافي لمشروعكِ الصغير أو المنزلي وبناء هوية بصرية متناسقة باستخدام هاتفكِ فقط',
+      price: '3000',
+      hours: 12,
+      isOpen: true,
+      level: 'مبتدئ',
+      topics: [
+        'تصميم منشورات وStories وأغلفة Reels احترافية باستخدام الهاتف',
+        'إنشاء هوية بصرية متناسقة تعكس شخصية مشروعكِ',
+        'العمل على قوالب قابلة للتعديل وتصاميم خاصة بمشروعكِ',
+        'تطبيقات عملية مكثفة خلال 6 جلسات تدريبية',
+        'تنفيذ مشروع نهائي متكامل خاص بمشروعكِ'
+      ],
+      prerequisites: 'لا توجد متطلبات مسبقة (بدون خبرة سابقة وبدون لابتوب)',
+      instructor: 'أ.سعاد الأزرق',
+      category: 'تصميم غرافيكي'
+    },
+    {
+      icon: Monitor,
+      title: 'دورة مهارات الحاسوب القياسية (ICDL)',
+      description: 'طوّر مهاراتك الرقمية وتعلّم الأركان الأساسية لتكنولوجيا المعلومات وبرامج المكتب من الأساسيات حتى التطبيق العملي لتأهيلك لمتطلبات سوق العمل الحديث',
+      price: '4500',
+      hours: 18,
+      isOpen: true,
+      level: 'مبتدئ إلى متوسط',
+      topics: [
+        'أساسيات الحاسوب ونظام التشغيل Windows: التعامل الكفء مع الجهاز وإدارة الملفات',
+        'معالج النصوص Word: كتابة وتنسيق التقارير والخطابات الرسمية باحتراف',
+        'الجداول والدالات Excel: تحليل البيانات وإجراء الحسابات وتنظيم الجداول',
+        'العروض التقديمية PowerPoint: تصميم عروض تفاعلية وجذابة لإيصال الأفكار',
+        'قواعد البيانات Access: إنشاء وإدارة قواعد البيانات والمعلومات بفاعلية',
+        'الإنترنت والبحث Internet: أساليب البحث المتقدم والتصفح الآمن',
+        'أمان تكنولوجيا المعلومات IT Security: حماية البيانات والأجهزة من المخاطر الرقمية'
+      ],
+      prerequisites: 'لا توجد متطلبات مسبقة',
+      instructor: 'م.ضحى بحبوح',
+      category: 'معلوماتية'
+    },
+    {
+      icon: Calculator,
+      title: 'دورة المحاسبة العملية على برنامج الأمين',
+      description: 'تعلّم مبادئ وأسس المحاسبة النظرية وإتقان تنفيذ العمليات التجارية المحاسبية وإعداد التقارير المالية على برنامج الأمين باحتراف مع تطبيقات عملية',
+      price: '3000',
+      hours: 24,
+      isOpen: true,
+      level: 'مبتدئ إلى متوسط',
+      topics: [
+        'مبادئ وأسس المحاسبة النظرية بطريقة مبسطة وعملية',
+        'إتقان تنفيذ العمليات التجارية المحاسبية على برنامج الأمين',
+        'اكتساب مهارة استلام الأعمال المحاسبية في أي شركة أو متجر بثقة',
+        'إعداد التقارير المالية والفواتير والسجلات المحاسبية باحتراف',
+        'تنزيل واستخدام برنامج الأمين على الحاسب الشخصي للمتدرب',
+        'الحصول على دعم فني وتقني مستمر عند بدء عملك الخاص على البرنامج'
+      ],
+      prerequisites: 'لا توجد متطلبات مسبقة',
+      instructor: 'أ.أسعد بركودة',
+      category: 'محاسبة وادارة اعمال'
+    },
+    {
+      icon: Settings,
+      title: 'دورة SOLIDWORKS الشاملة',
+      description: 'انتقل من أساسيات الرسم الهندسي إلى تصميم وتجميع النماذج ثلاثية الأبعاد واستخراج المخططات التنفيذية باحتراف في برنامج SOLIDWORKS خطوة بخطوة',
+      price: '4000',
+      hours: 30,
+      isOpen: true,
+      level: 'مبتدئ إلى متوسط',
+      topics: [
+        'أساسيات الرسم ثنائي الأبعاد 2D والقيود الهندسية',
+        'النمذجة ثلاثية الأبعاد 3D وعمليات Extrude – Revolve – Sweep – Loft',
+        'أدوات التشطيب والتشكيل المتقدم Fillet – Chamfer – Shell',
+        'التكرار وعمليات الثقوب باستخدام Hole Wizard',
+        'تصميم وتجميع القطع الميكانيكية Assembly',
+        'استخراج المخططات التنفيذية 2D Drawings',
+        'أساسيات دراسة الحركة Motion Study',
+        'امتحان نهائي شامل لمحاور الدورة'
+      ],
+      prerequisites: 'لا توجد متطلبات مسبقة',
+      instructor: 'م.فادي الأزرق',
+      category: 'ميكاترونيكس'
+    }
   ];
 
-  const stats = [
+  /*const stats = [
     { number: '500+', label: 'طالب متدرب' },
     { number: '50+', label: 'دورة تدريبية' },
     { number: '15+', label: 'مدرب محترف' },
     { number: '10+', label: 'سنوات خبرة' }
-  ];
+  ];*/
 
   // Replace naive filter with relevance scoring and sorting
   const scoredCourses = courses.map(c => ({
@@ -249,9 +325,10 @@ function App() {
   const filteredCourses = (searchQuery.trim()
     ? scoredCourses
       .filter(s => s.score > 0)
-      .sort((a, b) => b.score - a.score)
+      .sort((a, b) => Number(b.course.isOpen) - Number(a.course.isOpen) || b.score - a.score)
       .map(s => s.course)
-    : courses).filter(course => selectedCategory === 'الكل' || course.category === selectedCategory);
+    : [...courses].sort((a, b) => Number(b.isOpen) - Number(a.isOpen))
+  ).filter(course => selectedCategory === 'الكل' || course.category === selectedCategory);
 
   const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
   const indexOfLastCourse = currentPage * coursesPerPage;
