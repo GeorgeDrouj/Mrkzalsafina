@@ -1,19 +1,6 @@
-import { useState } from 'react';
-import { BookOpen, Calculator, Building2, Code, GraduationCap, Users, Award, MapPin, Clock, DollarSign, X, CheckCircle2, XCircle, Search, MessageCircle, Facebook, Instagram, ChevronLeft, ChevronRight, Menu, Goal, Brain, Shield, Cpu, Box, PenTool, Palette, Monitor, Smartphone, Settings, type LucideIcon } from 'lucide-react';
-
-interface Course {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  price: string;
-  hours: number;
-  isOpen: boolean;
-  level: string;
-  topics: string[];
-  prerequisites: string;
-  instructor: string;
-  category: string;
-}
+import { useState, useEffect } from 'react';
+import { BookOpen, GraduationCap, Users, Award, MapPin, Clock, DollarSign, X, CheckCircle2, XCircle, Search, MessageCircle, Facebook, Instagram, ChevronLeft, ChevronRight, Menu, Goal, User } from 'lucide-react';
+import { courses, categories, type Course } from './data/courses';
 
 function App() {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -23,296 +10,28 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState('الكل');
   const coursesPerPage = 6;
 
-  const categories = [
-    'الكل',
-    'معلوماتية',
-    'ميكاترونيكس',
-    'عمارة',
-    'تصميم داخلي',
-    'تصميم غرافيكي',
-    'محاسبة وادارة اعمال'
-  ];
-
-  const courses: Course[] = [
-    {
-      icon: Brain,
-      title: 'مدخل إلى الذكاء الصنعي ولغة بايثون',
-      description: 'تعلّم أساسيات الذكاء الصنعي والبرمجة بلغة بايثون وتحليل البيانات وبناء النماذج الذكية',
-      price: '4000',
-      hours: 24,
-      isOpen: false,
-      level: 'مبتدئ إلى متوسط',
-      topics: ['الذكاء الصنعي وتطبيقاته', 'لغة بايثون', 'Pandas', 'Numpy', 'Matplotlib', 'التعلم الآلي', 'التصنيف والانحدار وتقييم النماذج', 'مشروع عملي على بيانات حقيقية'],
-      prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.ميار الملا',
-      category: 'معلوماتية'
-    },
-    {
-      icon: Shield,
-      title: ' الأمن السيبراني والهكر الأخلاقي  المستوى الأول',
-      description: 'دورة تعرّفك على أساسيات الأمن السيبراني، التهديدات الرقمية، أدوات التحليل العملي، وإعداد بيئة اختبار آمنة باستخدام Kali ',
-      price: '3000',
-      hours: 15,
-      isOpen: false,
-      level: 'مبتدئ',
-      topics: [
-        'أساسيات الأمن السيبراني وأهميته',
-        'أنواع التهديدات الرقمية ونموذج Chain Kill Cyber',
-        'مصطلحات أساسية: Threat, Vulnerability, Exploit, Risk',
-        'القبعات السيبرانية وأخلاقيات العمل',
-        'Kali Linux على بيئة افتراضية',
-        'أوامر النظام الأساسية وإدارة الصلاحيات',
-        'تحليل الشبكات باستخدام Wireshark',
-        'فحص المنافذ والأجهزة باستخدام Nmap',
-        'تطبيق عملي لدمج الأدوات في سيناريوهات واقعية'
-      ],
-      prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.رياض حامد',
-      category: 'معلوماتية'
-    },
-    {
-      icon: Cpu,
-      title: 'دورة Arduino',
-      description: 'تعلّم برمجة المتحكم الصغري Arduino وتصميم مشاريع إلكترونية ذكية من الصفر',
-      price: '2500',
-      hours: 20,
-      isOpen: true,
-      level: 'مبتدئ إلى متوسط',
-      topics: [
-        'التعرف على المتحكم الصغري Arduino وأنواعه',
-        'الدخل والخرج الرقمي (Digital I/O)',
-        'الدخل والخرج التناظري (Analog I/O)',
-        'أساسيات البرمجة: الشروط والحلقات وتعريف المداخل والمخارج',
-        'كتابة الأكواد وتنفيذها عمليًا',
-        'أدوات الإدخال والإخراج: LCD، 7-Segment، Keypad',
-        'مشروع متكامل يطبق جميع المهارات',
-        'اختبار لتقييم الفهم والتطبيق'
-      ],
-      prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.فادي الأزرق',
-      category: 'ميكاترونيكس'
-    },
-    {
-      icon: Calculator,
-      title: 'دورة المحاسبة العملية على برنامج الرشيد',
-      description: 'تعلّم مبادئ المحاسبة وتنفيذ العمليات التجارية على برنامج الرشيد باحتراف مع تطبيقات عملية ودعم فني مستمر',
-      price: '3500',
-      hours: 24,
-      isOpen: false,
-      level: 'مبتدئ إلى متوسط',
-      topics: [
-        'مبادئ وأسس المحاسبة النظرية',
-        'تنفيذ العمليات التجارية على برنامج الرشيد',
-        'اكتساب مهارة إدارة الأعمال المحاسبية في الشركات والمتاجر',
-        'إعداد التقارير المالية والفواتير والسجلات المحاسبية',
-        'تنزيل واستخدام برنامج الرشيد على الحاسب الشخصي',
-        'الحصول على دعم فني وتقني مستمر'
-      ],
-      prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'أ.أسعد بركودة',
-      category: 'محاسبة وادارة اعمال'
-    },
-    {
-      icon: Box,
-      title: 'دورة 3ds Max مع V-Ray',
-      description: 'تعلّم النمذجة ثلاثية الأبعاد والتصميم الداخلي والخارجي باستخدام 3ds Max وV-Ray لإنتاج صور واقعية عالية الجودة',
-      price: '10000',
-      hours: 50,
-      isOpen: true,
-      level: 'مبتدئ إلى متقدم',
-      topics: [
-        'واجهة 3ds Max وأساسيات النمذجة',
-        'تصميم الفراغات الداخلية والخارجية',
-        'تطبيق المواد والخامات باحتراف',
-        'ضبط الإضاءة الواقعية باستخدام V-Ray',
-        'إعداد الكاميرا وزوايا التصوير',
-        'الرندر النهائي وإخراج الصور الواقعية'
-      ],
-      prerequisites: 'يفضّل معرفة أساسيات التصميم الداخلي أو المعماري',
-      instructor: 'م.منيا عبده',
-      category: 'تصميم داخلي'
-    },
-    {
-      icon: Palette,
-      title: 'دورة الفوتوشوب للمبتدئين',
-      description: 'ابدأ رحلتك في عالم التصميم باستخدام Photoshop من خلال تعلم الأدوات الأساسية وتعديل الصور وبناء تصاميم احترافية من الصفر',
-      price: '2000',
-      hours: 16,
-      isOpen: true,
-      level: 'مبتدئ',
-      topics: [
-        'واجهة البرنامج وأهم الأدوات',
-        'أساسيات تعديل الصور وتحسينها',
-        'الكتابة والتعامل مع النصوص',
-        'الرسم والتلوين بالأدوات الأساسية',
-        'مشروع تطبيقي نهائي لبناء تصميم متكامل',
-        'تصميم بوسترات ومحتوى للسوشيال ميديا',
-        'فهم الطبقات وتنظيم العمل'
-      ],
-      prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'أ.سعاد الأزرق',
-      category: 'تصميم غرافيكي'
-    },
-    {
-      icon: Building2,
-      title: 'دورة Revit الاحترافية',
-      description: 'تعلّم استخدام برنامج Revit باحتراف لبناء النماذج المعمارية، إعداد الجداول، والإخراج البصري والطباعي المتكامل للمشارية',
-      price: '5000',
-      hours: 30,
-      isOpen: false,
-      level: 'متوسط إلى متقدم',
-      topics: [
-        'التعرف على البرنامج والواجهة وضبط الإعدادات',
-        'أوامر النمذجة الأساسية: المستويات، الجدران، الأعمدة، الأبواب، النوافذ، السلالم',
-        'أدوات التعديل (Trim، Offset وغيرها)',
-        'الأسقف المستعارة ومواد الإكساء',
-        'التنظيم والجداول (المساحات، الجداول، المواد)',
-        'العرض وإنشاء المشاهد وأوراق الرسم (Sheets)',
-        'الريندر والإخراج البصري',
-        'الكتل العضوية (Mass Modeling)'
-      ],
-      prerequisites: 'يفضّل معرفة أساسيات التصميم المعماري أو الهندسي',
-      instructor: 'م.مايكل سليك',
-      category: 'عمارة'
-    },
-    {
-      icon: PenTool,
-      title: 'دورة AutoCAD',
-      description: 'ابدأ رحلتك نحو إتقان برنامج أوتوكاد من خلال التعرف على واجهته وأوامره الأساسية وتنفيذ مشروع معماري كامل عمليًا',
-      price: '3500',
-      hours: 20,
-      isOpen: true,
-      level: 'مبتدئ إلى متوسط',
-      topics: [
-        'واجهة البرنامج وضبط الإعدادات',
-        'الأوامر الرئيسية والمساعدة واختصاراتها',
-        'إعداد واستخدام الطبقات (Layers)',
-        'رسم المخططات المعمارية ووضع الأبعاد',
-        'إنشاء وتعديل البلوكات',
-        'رسم الواجهات والمقاطع',
-        'تطبيق عملي على مشروع كامل',
-        'الحصول على مكتبة بلوكات جاهزة للاستخدام'
-      ],
-      prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.ماريا البطل',
-      category: 'عمارة'
-    },
-    {
-      icon: Code,
-      title: 'مدخل واساسيات التفكير البرمجي',
-      description: 'ابدأ رحلتك في عالم البرمجة من خلال تعلم التفكير المنطقي وتحليل المشكلات وتصميم الحلول بخوارزميات ومخططات منهجية دون التقيد بلغة محددة',
-      price: '4000',
-      hours: 15,
-      isOpen: true,
-      level: 'مبتدئ',
-      topics: [
-        'مدخل إلى التفكير البرمجي',
-        'تحليل المشكلات وتقسيمها إلى أجزاء',
-        'منطق الشروط والقرارات (الجمل الشرطية وشجرة القرار)',
-        'التكرار والحلقات',
-        'المتغيرات وأنواعها',
-        'الخوارزميات والتفكير المنهجي (Pseudocode)',
-        'الرسم التخطيطي (Flowchart)',
-        'مقدمة إلى البرمجة الكائنية والتفكير الهيكلي (OOP)',
-        'التفكير الاستراتيجي في حل المشكلات',
-        'تحديات من الواقع العملي'
-      ],
-      prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.محمد عبده',
-      category: 'معلوماتية'
-    },
-    {
-      icon: Smartphone,
-      title: 'دورة تصميم محتوى المشاريع باستخدام الهاتف (مشروعي بتصميمي)',
-      description: 'تعلّمي تصميم محتوى جذاب واحترافي لمشروعكِ الصغير أو المنزلي وبناء هوية بصرية متناسقة باستخدام هاتفكِ فقط',
-      price: '3000',
-      hours: 12,
-      isOpen: true,
-      level: 'مبتدئ',
-      topics: [
-        'تصميم منشورات وStories وأغلفة Reels احترافية باستخدام الهاتف',
-        'إنشاء هوية بصرية متناسقة تعكس شخصية مشروعكِ',
-        'العمل على قوالب قابلة للتعديل وتصاميم خاصة بمشروعكِ',
-        'تطبيقات عملية مكثفة خلال 6 جلسات تدريبية',
-        'تنفيذ مشروع نهائي متكامل خاص بمشروعكِ'
-      ],
-      prerequisites: 'لا توجد متطلبات مسبقة (بدون خبرة سابقة وبدون لابتوب)',
-      instructor: 'أ.سعاد الأزرق',
-      category: 'تصميم غرافيكي'
-    },
-    {
-      icon: Monitor,
-      title: 'دورة مهارات الحاسوب القياسية (ICDL)',
-      description: 'طوّر مهاراتك الرقمية وتعلّم الأركان الأساسية لتكنولوجيا المعلومات وبرامج المكتب من الأساسيات حتى التطبيق العملي لتأهيلك لمتطلبات سوق العمل الحديث',
-      price: '4500',
-      hours: 18,
-      isOpen: true,
-      level: 'مبتدئ إلى متوسط',
-      topics: [
-        'أساسيات الحاسوب ونظام التشغيل Windows: التعامل الكفء مع الجهاز وإدارة الملفات',
-        'معالج النصوص Word: كتابة وتنسيق التقارير والخطابات الرسمية باحتراف',
-        'الجداول والدالات Excel: تحليل البيانات وإجراء الحسابات وتنظيم الجداول',
-        'العروض التقديمية PowerPoint: تصميم عروض تفاعلية وجذابة لإيصال الأفكار',
-        'قواعد البيانات Access: إنشاء وإدارة قواعد البيانات والمعلومات بفاعلية',
-        'الإنترنت والبحث Internet: أساليب البحث المتقدم والتصفح الآمن',
-        'أمان تكنولوجيا المعلومات IT Security: حماية البيانات والأجهزة من المخاطر الرقمية'
-      ],
-      prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.ضحى بحبوح',
-      category: 'معلوماتية'
-    },
-    {
-      icon: Calculator,
-      title: 'دورة المحاسبة العملية على برنامج الأمين',
-      description: 'تعلّم مبادئ وأسس المحاسبة النظرية وإتقان تنفيذ العمليات التجارية المحاسبية وإعداد التقارير المالية على برنامج الأمين باحتراف مع تطبيقات عملية',
-      price: '3000',
-      hours: 24,
-      isOpen: true,
-      level: 'مبتدئ إلى متوسط',
-      topics: [
-        'مبادئ وأسس المحاسبة النظرية بطريقة مبسطة وعملية',
-        'إتقان تنفيذ العمليات التجارية المحاسبية على برنامج الأمين',
-        'اكتساب مهارة استلام الأعمال المحاسبية في أي شركة أو متجر بثقة',
-        'إعداد التقارير المالية والفواتير والسجلات المحاسبية باحتراف',
-        'تنزيل واستخدام برنامج الأمين على الحاسب الشخصي للمتدرب',
-        'الحصول على دعم فني وتقني مستمر عند بدء عملك الخاص على البرنامج'
-      ],
-      prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'أ.أسعد بركودة',
-      category: 'محاسبة وادارة اعمال'
-    },
-    {
-      icon: Settings,
-      title: 'دورة SOLIDWORKS الشاملة',
-      description: 'انتقل من أساسيات الرسم الهندسي إلى تصميم وتجميع النماذج ثلاثية الأبعاد واستخراج المخططات التنفيذية باحتراف في برنامج SOLIDWORKS خطوة بخطوة',
-      price: '4000',
-      hours: 30,
-      isOpen: true,
-      level: 'مبتدئ إلى متوسط',
-      topics: [
-        'أساسيات الرسم ثنائي الأبعاد 2D والقيود الهندسية',
-        'النمذجة ثلاثية الأبعاد 3D وعمليات Extrude – Revolve – Sweep – Loft',
-        'أدوات التشطيب والتشكيل المتقدم Fillet – Chamfer – Shell',
-        'التكرار وعمليات الثقوب باستخدام Hole Wizard',
-        'تصميم وتجميع القطع الميكانيكية Assembly',
-        'استخراج المخططات التنفيذية 2D Drawings',
-        'أساسيات دراسة الحركة Motion Study',
-        'امتحان نهائي شامل لمحاور الدورة'
-      ],
-      prerequisites: 'لا توجد متطلبات مسبقة',
-      instructor: 'م.فادي الأزرق',
-      category: 'ميكاترونيكس'
+  useEffect(() => {
+    if (!selectedCourse) {
+      document.body.style.overflow = '';
+      return;
     }
-  ];
 
-  /*const stats = [
-    { number: '500+', label: 'طالب متدرب' },
-    { number: '50+', label: 'دورة تدريبية' },
-    { number: '15+', label: 'مدرب محترف' },
-    { number: '10+', label: 'سنوات خبرة' }
-  ];*/
+    document.body.style.overflow = 'hidden';
 
-  // Replace naive filter with relevance scoring and sorting
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedCourse(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedCourse]);
+
+  // Relevance scoring and sorting (open courses first)
   const scoredCourses = courses.map(c => ({
     course: c,
     score: searchQuery.trim() ? (
@@ -354,6 +73,7 @@ function App() {
           <button
             className="md:hidden"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="القائمة"
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -401,20 +121,6 @@ function App() {
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
       </section>
-
-      {/* Stats Section */}
-      {/*<section className="py-8 md:py-12 bg-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {stats.map((stat, index) => (
-              <div key={index} className="text-center p-4 md:p-6 rounded-xl bg-gradient-to-br from-[#1E90D8]/10 to-[#F8E71C]/10 hover:shadow-lg transition-shadow">
-                <div className="text-2xl md:text-4xl lg:text-5xl font-bold text-[#2B3A8F] mb-1 md:mb-2">{stat.number}</div>
-                <div className="text-sm md:text-base text-gray-700 font-semibold">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>*/}
 
       {/* Courses Section */}
       <section id="courses" className="py-12 md:py-20 px-4 md:px-6 bg-gray-50">
@@ -465,6 +171,7 @@ function App() {
                       setCurrentPage(1);
                     }}
                     className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    aria-label="مسح البحث"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -482,39 +189,62 @@ function App() {
                     <div
                       key={index}
                       onClick={() => setSelectedCourse(course)}
-                      className="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border-t-4 border-[#1E90D8] group cursor-pointer relative"
+                      className="bg-white p-6 md:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all transform hover:-translate-y-2 border-t-4 border-[#1E90D8] group cursor-pointer relative flex flex-col justify-between"
                     >
-                      {course.isOpen ? (
-                        <div className="absolute top-4 left-4 bg-green-500 text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-bold flex items-center gap-1">
-                          <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4" />
-                          <span className="hidden sm:inline">متاح للتسجيل</span>
-                          <span className="sm:hidden">متاح</span>
+                      <div>
+                        {course.isOpen ? (
+                          <div className="absolute top-4 left-4 bg-green-500 text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-bold flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4" />
+                            <span className="hidden sm:inline">متاح للتسجيل</span>
+                            <span className="sm:hidden">متاح</span>
+                          </div>
+                        ) : (
+                          <div className="absolute top-4 left-4 bg-red-500 text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-bold flex items-center gap-1">
+                            <XCircle className="w-3 h-3 md:w-4 md:h-4" />
+                            <span className="hidden sm:inline">مغلق حالياً</span>
+                            <span className="sm:hidden">مغلق</span>
+                          </div>
+                        )}
+                        <div className="bg-gradient-to-br from-[#2B3A8F] to-[#1E90D8] w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center mb-4 md:mb-5 group-hover:scale-110 transition-transform">
+                          <Icon className="w-7 h-7 md:w-8 md:h-8 text-white" />
                         </div>
-                      ) : (
-                        <div className="absolute top-4 left-4 bg-red-500 text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-bold flex items-center gap-1">
-                          <XCircle className="w-3 h-3 md:w-4 md:h-4" />
-                          <span className="hidden sm:inline">مغلق حالياً</span>
-                          <span className="sm:hidden">مغلق</span>
+
+                        {/* Category & Level Badges */}
+                        <div className="flex flex-wrap items-center gap-2 mb-3">
+                          <span className="bg-[#1E90D8]/10 text-[#1E90D8] text-xs font-bold px-2.5 py-1 rounded-md">
+                            {course.category}
+                          </span>
+                          <span className="bg-gray-100 text-gray-600 text-xs font-semibold px-2.5 py-1 rounded-md flex items-center gap-1">
+                            <GraduationCap className="w-3.5 h-3.5 text-[#2B3A8F]" />
+                            {course.level}
+                          </span>
                         </div>
-                      )}
-                      <div className="bg-gradient-to-br from-[#2B3A8F] to-[#1E90D8] w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform">
-                        <Icon className="w-7 h-7 md:w-8 md:h-8 text-white" />
+
+                        <h4 className="text-xl md:text-2xl font-bold text-[#2B3A8F] mb-2 md:mb-3">{course.title}</h4>
+                        <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-4">{course.description}</p>
                       </div>
-                      <h4 className="text-xl md:text-2xl font-bold text-[#2B3A8F] mb-2 md:mb-3">{course.title}</h4>
-                      <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-4">{course.description}</p>
-                      <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                        <div className="flex items-center gap-1 md:gap-2 text-[#2B3A8F]">
-                          <DollarSign className="w-4 h-4 md:w-5 md:h-5" />
-                          <span className="font-bold text-sm md:text-base">{course.price}ل.س</span>
+
+                      <div>
+                        {/* Instructor row */}
+                        <div className="flex items-center gap-2 text-xs md:text-sm text-gray-600 mb-3 font-semibold">
+                          <User className="w-4 h-4 text-[#1E90D8] flex-shrink-0" />
+                          <span>المدرب: {course.instructor}</span>
                         </div>
-                        <div className="flex items-center gap-1 md:gap-2 text-gray-600">
-                          <Clock className="w-4 h-4 md:w-5 md:h-5" />
-                          <span className="font-semibold text-sm md:text-base">{course.hours} ساعة</span>
+
+                        <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                          <div className="flex items-center gap-1 md:gap-2 text-[#2B3A8F]">
+                            <DollarSign className="w-4 h-4 md:w-5 md:h-5" />
+                            <span className="font-bold text-sm md:text-base">{course.price} ل.س</span>
+                          </div>
+                          <div className="flex items-center gap-1 md:gap-2 text-gray-600">
+                            <Clock className="w-4 h-4 md:w-5 md:h-5" />
+                            <span className="font-semibold text-sm md:text-base">{course.hours} ساعة</span>
+                          </div>
                         </div>
+                        <button className="w-full mt-4 bg-[#F8E71C] text-[#2B3A8F] py-2 rounded-lg font-bold text-sm md:text-base hover:bg-[#E5D419] transition-colors">
+                          عرض التفاصيل
+                        </button>
                       </div>
-                      <button className="w-full mt-4 bg-[#F8E71C] text-[#2B3A8F] py-2 rounded-lg font-bold text-sm md:text-base hover:bg-[#E5D419] transition-colors">
-                        عرض التفاصيل
-                      </button>
                     </div>
                   );
                 })}
@@ -707,6 +437,20 @@ function App() {
         </div>
       </footer>
 
+      {/* Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/+963983365693?text=مرحباً، أود الاستفسار عن الدورات المتاحة في مركز السفينة"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="تواصل معنا عبر واتساب"
+        className="fixed bottom-6 left-6 z-40 bg-[#25D366] text-white p-3.5 md:p-4 rounded-full shadow-2xl hover:bg-[#20bd5a] transition-all transform hover:scale-110 flex items-center gap-2 group"
+      >
+        <MessageCircle className="w-6 h-6 md:w-7 md:h-7" />
+        <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-300 text-sm font-bold">
+          تواصل معنا
+        </span>
+      </a>
+
       {/* Course Details Modal */}
       {selectedCourse && (
         <div
@@ -717,9 +461,10 @@ function App() {
             className="bg-white rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="sticky top-0 bg-gradient-to-br from-[#2B3A8F] to-[#1E90D8] text-white p-6 md:p-8 rounded-t-3xl">
+            <div className="sticky top-0 bg-gradient-to-br from-[#2B3A8F] to-[#1E90D8] text-white p-6 md:p-8 rounded-t-3xl z-10">
               <button
                 onClick={() => setSelectedCourse(null)}
+                aria-label="إغلاق"
                 className="absolute top-4 md:top-6 left-4 md:left-6 bg-white/20 hover:bg-white/30 p-2 rounded-full transition-colors"
               >
                 <X className="w-5 h-5 md:w-6 md:h-6" />
@@ -729,21 +474,24 @@ function App() {
                   <selectedCourse.icon className="w-10 h-10 md:w-12 md:h-12" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-2xl md:text-3xl font-bold mb-2">{selectedCourse.title}</h3>
-                  <p className="text-base md:text-lg text-gray-100">{selectedCourse.description}</p>
-                  <div className="mt-3 md:mt-4">
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <span className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">
+                      {selectedCourse.category}
+                    </span>
                     {selectedCourse.isOpen ? (
-                      <span className="inline-flex items-center gap-2 bg-green-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-full font-bold text-sm md:text-base">
-                        <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" />
+                      <span className="inline-flex items-center gap-1.5 bg-green-500 text-white px-3 py-1 rounded-full font-bold text-xs md:text-sm">
+                        <CheckCircle2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                         متاح للتسجيل
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-2 bg-red-500 text-white px-3 md:px-4 py-1.5 md:py-2 rounded-full font-bold text-sm md:text-base">
-                        <XCircle className="w-4 h-4 md:w-5 md:h-5" />
+                      <span className="inline-flex items-center gap-1.5 bg-red-500 text-white px-3 py-1 rounded-full font-bold text-xs md:text-sm">
+                        <XCircle className="w-3.5 h-3.5 md:w-4 md:h-4" />
                         مغلق حالياً
                       </span>
                     )}
                   </div>
+                  <h3 className="text-2xl md:text-3xl font-bold mb-2">{selectedCourse.title}</h3>
+                  <p className="text-base md:text-lg text-gray-100">{selectedCourse.description}</p>
                 </div>
               </div>
             </div>
@@ -793,8 +541,8 @@ function App() {
                   <p className="text-base md:text-lg text-gray-700">{selectedCourse.instructor}</p>
                 </div>
 
-                {selectedCourse.isOpen && (
-                  <div className="border-t pt-4 md:pt-6">
+                <div className="border-t pt-4 md:pt-6">
+                  {selectedCourse.isOpen ? (
                     <a
                       href={`https://wa.me/+963983365693?text=مرحباً، أرغب بالتسجيل في دورة ${selectedCourse.title}`}
                       target="_blank"
@@ -803,8 +551,17 @@ function App() {
                     >
                       سجل الآن في هذه الدورة
                     </a>
-                  </div>
-                )}
+                  ) : (
+                    <a
+                      href={`https://wa.me/+963983365693?text=مرحباً، أرغب بالاستفسار وحجز مقعد للدفعة القادمة في دورة ${selectedCourse.title}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full bg-[#2B3A8F] text-white py-3 md:py-4 rounded-xl font-bold text-base md:text-lg hover:bg-[#1E90D8] transition-colors shadow-lg text-center"
+                    >
+                      استفسر أو احجز مقعدك للدفعة القادمة عبر واتساب
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           </div>
