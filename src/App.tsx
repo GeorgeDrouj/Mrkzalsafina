@@ -420,7 +420,7 @@ function App() {
           <div className="text-center mt-8 md:mt-12">
             <div className="bg-white/10 backdrop-blur-sm p-4 md:p-6 rounded-2xl inline-flex items-center gap-2 md:gap-3">
               <MapPin className="w-5 h-5 md:w-6 md:h-6" />
-              <span className="text-base md:text-lg font-semibold"> ديرعطية - السوق الشمالي بناء روضة بيت الطفل</span>
+              <span className="text-base md:text-lg font-semibold"> ديرعطية - السوق الشمالي جانب محلات معاد</span>
             </div>
           </div>
         </div>
